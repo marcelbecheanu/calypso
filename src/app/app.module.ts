@@ -1,23 +1,9 @@
 import { Module } from '@nestjs/common';
 import { IdentityModule } from '../core/identity/identity.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { DatabaseModule } from 'src/core/database/database.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forRoot({
-      synchronize: true,
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'calypso',
-      password: 'calypso1234',
-      database: 'calypso',
-      entities: [__dirname + '/**/**/*.entity{.ts,.js}'],
-      autoLoadEntities: true,
-      logging: true,
-    }),
-    IdentityModule,
-  ],
+  imports: [DatabaseModule, IdentityModule],
   controllers: [],
   providers: [],
 })

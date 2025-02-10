@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { IdentityModule } from './identity/identity.module';
+import { IdentityModule } from '../core/identity/identity.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
@@ -9,14 +9,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       type: 'postgres',
       host: 'localhost',
       port: 5432,
-      username: "calypso",
-      password: "calypso1234",
-      database: "calypso",
+      username: 'calypso',
+      password: 'calypso1234',
+      database: 'calypso',
       entities: [__dirname + '/**/**/*.entity{.ts,.js}'],
       autoLoadEntities: true,
       logging: true,
     }),
-    IdentityModule
+    IdentityModule,
   ],
   controllers: [],
   providers: [],

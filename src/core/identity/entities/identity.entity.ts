@@ -51,6 +51,4 @@ export class Identity {
     nullable: true,
   })
   deletedAt: Date;
-
-  
 }

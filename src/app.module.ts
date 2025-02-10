@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { Identity } from './identity/identity.module';
+import { IdentityModule } from './identity/identity.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
@@ -7,15 +7,16 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     TypeOrmModule.forRoot({
       synchronize: true,
       type: 'postgres',
-      host: "127.0.0.1",
+      host: 'localhost',
       port: 5432,
       username: "calypso",
-      password: "calypso",
+      password: "calypso1234",
       database: "calypso",
-      entities: [__dirname + '/../../**/*.entity{.ts,.js}'],
+      entities: [__dirname + '/**/**/*.entity{.ts,.js}'],
       autoLoadEntities: true,
+      logging: true,
     }),
-    Identity
+    IdentityModule
   ],
   controllers: [],
   providers: [],

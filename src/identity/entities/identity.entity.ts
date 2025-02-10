@@ -7,7 +7,7 @@ import {
   DeleteDateColumn,
 } from 'typeorm';
 
-@Entity({ name: `identity` })
+@Entity({ name: 'identity' })
 export class Identity {
   @PrimaryGeneratedColumn({ name: 'identity_id' })
   id: number;
@@ -51,4 +51,6 @@ export class Identity {
     nullable: true,
   })
   deletedAt: Date;
+
+  
 }

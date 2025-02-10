@@ -1,3 +1,4 @@
+import { CONFIGURABLE_MODULE_ID } from '@nestjs/common/module-utils/constants';
 import {
   Entity,
   Column,
@@ -7,49 +8,50 @@ import {
   DeleteDateColumn,
 } from 'typeorm';
 
-@Entity({ name: 'identities' })
-export class Identity {
-  @PrimaryGeneratedColumn({ name: 'identity_id' })
+@Entity({ name: 'roles' })
+export class Role {
+  @PrimaryGeneratedColumn({ name: 'role_id' })
   id: number;
 
   @Column({
-    name: 'identity_email',
+    name: 'role_code',
     unique: true,
     nullable: false,
+    length: 80,
+  })
+  code: string;
+
+  @Column({
+    name: 'role_title',
+    unique: true,
+    nullable: false,
+    length: 160,
+  })
+  title: string;
+
+  @Column({
+    name: 'role_description',
+    nullable: true,
     length: 320,
   })
-  email: string;
-
-  @Column({
-    name: 'identity_password',
-    nullable: false,
-    length: 128,
-  })
-  password: string;
-
-  @Column({
-    name: 'identity_is_confirmed',
-    default: false,
-    nullable: false
-  })
-  isConfirmed: boolean;
+  description: string;
 
   @CreateDateColumn({
-    name: 'identity_created_at',
+    name: 'role_created_at',
     type: 'timestamp',
     nullable: false
   })
   createdAt: Date;
 
   @UpdateDateColumn({
-    name: 'identity_updated_at',
+    name: 'role_updated_at',
     type: 'timestamp',
     nullable: false
   })
   updatedAt: Date;
 
   @DeleteDateColumn({
-    name: 'identity_deleted_at',
+    name: 'role_deleted_at',
     type: 'timestamp',
     nullable: true,
   })

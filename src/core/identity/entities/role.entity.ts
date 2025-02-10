@@ -1,4 +1,3 @@
-import { CONFIGURABLE_MODULE_ID } from '@nestjs/common/module-utils/constants';
 import {
   Entity,
   Column,
@@ -6,11 +5,14 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
+  ManyToMany,
 } from 'typeorm';
+import { Identity } from './identity.entity';
+import { Group } from './group.entity';
 
-@Entity({ name: 'roles' })
+@Entity('roles')
 export class Role {
-  @PrimaryGeneratedColumn({ name: 'role_id' })
+  @PrimaryGeneratedColumn('increment', { name: 'role_id' })
   id: number;
 
   @Column({
@@ -34,19 +36,19 @@ export class Role {
     nullable: true,
     length: 320,
   })
-  description: string;
+  description?: string;
 
   @CreateDateColumn({
     name: 'role_created_at',
     type: 'timestamp',
-    nullable: false
+    nullable: false,
   })
   createdAt: Date;
 
   @UpdateDateColumn({
     name: 'role_updated_at',
     type: 'timestamp',
-    nullable: false
+    nullable: false,
   })
   updatedAt: Date;
 
@@ -55,5 +57,12 @@ export class Role {
     type: 'timestamp',
     nullable: true,
   })
-  deletedAt: Date;
+  deletedAt?: Date;
+
+  @ManyToMany(() => Identity, (identity) => identity.roles)
+  identities: Identity[];
+
+  @ManyToMany(() => Group, (group) => group.roles)
+  groups: Group[];
+
 }

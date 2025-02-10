@@ -5,11 +5,15 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
+import { Role } from './role.entity';
+import { Group } from './group.entity';
 
 @Entity({ name: 'identities' })
 export class Identity {
-  @PrimaryGeneratedColumn({ name: 'identity_id' })
+  @PrimaryGeneratedColumn('increment', { name: 'identity_id' })
   id: number;
 
   @Column({
@@ -30,21 +34,21 @@ export class Identity {
   @Column({
     name: 'identity_is_confirmed',
     default: false,
-    nullable: false
+    nullable: false,
   })
   isConfirmed: boolean;
 
   @CreateDateColumn({
     name: 'identity_created_at',
     type: 'timestamp',
-    nullable: false
+    nullable: false,
   })
   createdAt: Date;
 
   @UpdateDateColumn({
     name: 'identity_updated_at',
     type: 'timestamp',
-    nullable: false
+    nullable: false,
   })
   updatedAt: Date;
 
@@ -53,5 +57,22 @@ export class Identity {
     type: 'timestamp',
     nullable: true,
   })
-  deletedAt: Date;
+  deletedAt?: Date;
+
+  @ManyToMany(() => Role, (role) => role.identities)
+  @JoinTable({
+    name: 'identity_roles',
+    joinColumn: { name: 'identity_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'role_id', referencedColumnName: 'id' },
+  })
+  roles: Role[];
+
+
+  @ManyToMany(() => Group, (group) => group.identities)
+  @JoinTable({
+    name: 'identity_groups',
+    joinColumn: { name: 'identity_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'group_id', referencedColumnName: 'id' },
+  })
+  groups: Group[];
 }

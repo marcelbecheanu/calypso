@@ -1,7 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
-import { GroupService } from "../services/group.service";
-import type { CreateGroupDto } from "../dtos/create-group.dto";
-import type { UpdateGroupDto } from "../dtos/update-group.dto";
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { GroupService } from '../services/group.service';
+import type { CreateGroupDto } from '../dtos/create-group.dto';
+import type { UpdateGroupDto } from '../dtos/update-group.dto';
 
 @Controller('groups')
 export class GroupController {
@@ -30,6 +30,11 @@ export class GroupController {
   @Delete(':id')
   remove(@Param('id') id: number) {
     return this.groupService.remove(id);
+  }
+
+  @Get(':id/roles')
+  findRolesOfGroup(@Param('id') groupId: number) {
+    return this.groupService.findRolesOfGroup(groupId);
   }
 
   @Post(':id/roles/:roleId')

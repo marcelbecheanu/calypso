@@ -1,10 +1,18 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { Identity } from "./identity.entity";
-import { Role } from "./role.entity";
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { Identity } from './identity.entity';
+import { Role } from './role.entity';
 
 @Entity({ name: 'groups' })
 export class Group {
-
   @PrimaryGeneratedColumn({ name: 'group_id' })
   id: number;
 
@@ -45,5 +53,4 @@ export class Group {
     inverseJoinColumn: { name: 'role_id', referencedColumnName: 'id' },
   })
   roles: Role[];
-
 }

@@ -1,24 +1,26 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
-import type { Repository } from "typeorm";
-import { Group } from "../entities/group.entity";
-import { Role } from "../entities/role.entity";
-import { InjectRepository } from "@nestjs/typeorm";
-import type { CreateGroupDto } from "../dtos/create-group.dto";
-import type { UpdateGroupDto } from "../dtos/update-group.dto";
+import { Injectable, NotFoundException } from '@nestjs/common';
+import type { Repository } from 'typeorm';
+import { Group } from '../entities/group.entity';
+import { Role } from '../entities/role.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import type { CreateGroupDto } from '../dtos/create-group.dto';
+import type { UpdateGroupDto } from '../dtos/update-group.dto';
 
 @Injectable()
 export class GroupService {
   constructor(
-    @InjectRepository(Group) private groupRepository: Repository<Group>,
-    @InjectRepository(Role) private roleRepository: Repository<Role>,
+    @InjectRepository(Group)
+    private groupRepository: Repository<Group>,
+    @InjectRepository(Role)
+    private roleRepository: Repository<Role>,
   ) {}
 
   async findAll(): Promise<Group[]> {
-    return this.groupRepository.find({ relations: ['roles'] });
+    return this.groupRepository.find({});
   }
 
   async findOne(id: number): Promise<Group> {
-    const group = await this.groupRepository.findOne({ where: { id }, relations: ['roles'] });
+    const group = await this.groupRepository.findOne({ where: { id } });
     if (!group) throw new NotFoundException('Group not found');
     return group;
   }
@@ -37,6 +39,10 @@ export class GroupService {
     await this.groupRepository.delete(id);
   }
 
+  async findRolesOfGroup(groupId: number): Promise<Group[]> {
+    return await this.groupRepository.find({ where: { id: groupId }, relations: ['roles'] });
+  }
+
   async addRole(groupId: number, roleId: number): Promise<Group> {
     const group = await this.findOne(groupId);
     const role = await this.roleRepository.findOne({ where: { id: roleId } });
@@ -47,7 +53,7 @@ export class GroupService {
 
   async removeRole(groupId: number, roleId: number): Promise<Group> {
     const group = await this.findOne(groupId);
-    group.roles = group.roles.filter(role => role.id !== roleId);
+    group.roles = group.roles.filter((role) => role.id !== roleId);
     return this.groupRepository.save(group);
   }
 }

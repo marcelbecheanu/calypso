@@ -1,4 +1,3 @@
-
 export type ExternalUser = {
   authentication: {
     serviceName: string;
@@ -9,4 +8,4 @@ export type ExternalUser = {
   emailAddress?: string;
   profilePicture?: string;
   claims?: any;
-}
+};

@@ -67,7 +67,6 @@ export class Identity {
   })
   roles: Role[];
 
-
   @ManyToMany(() => Group, (group) => group.identities)
   @JoinTable({
     name: 'identity_groups',

@@ -1,18 +1,19 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import type { Repository } from 'typeorm';
 import { Group } from '../entities/group.entity';
 import { Role } from '../entities/role.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import type { CreateGroupDto } from '../dtos/create-group.dto';
 import type { UpdateGroupDto } from '../dtos/update-group.dto';
+import { RoleService } from './role.service';
 
 @Injectable()
 export class GroupService {
   constructor(
     @InjectRepository(Group)
     private groupRepository: Repository<Group>,
-    @InjectRepository(Role)
-    private roleRepository: Repository<Role>,
+    @Inject(RoleService)
+    private readonly roleService: RoleService,
   ) {}
 
   async findAll(): Promise<Group[]> {
@@ -45,8 +46,7 @@ export class GroupService {
 
   async addRole(groupId: number, roleId: number): Promise<Group> {
     const group = await this.findOne(groupId);
-    const role = await this.roleRepository.findOne({ where: { id: roleId } });
-    if (!role) throw new NotFoundException('Role not found');
+    const role = await this.roleService.findOne(roleId)
     group.roles = [...group.roles, role];
     return this.groupRepository.save(group);
   }

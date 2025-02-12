@@ -7,9 +7,14 @@ import {
   DeleteDateColumn,
   ManyToMany,
   JoinTable,
+  BeforeInsert,
+  BeforeUpdate,
 } from 'typeorm';
+import { compare, genSalt, hash } from 'bcrypt';
 import { Role } from './role.entity';
 import { Group } from './group.entity';
+import { constants } from 'buffer';
+import { hashLevel } from '../constants/identity.config';
 
 @Entity({ name: 'identities' })
 export class Identity {
@@ -74,4 +79,18 @@ export class Identity {
     inverseJoinColumn: { name: 'group_id', referencedColumnName: 'id' },
   })
   groups: Group[];
+
+  @BeforeUpdate()
+  @BeforeInsert()
+  async encryptPassword() {
+    if (this.password) {
+      const saltRounds = hashLevel;
+      const salt = await genSalt(saltRounds);
+      this.password = await hash(this.password, salt);
+    }
+  }
+
+  async compareHash(password: string): Promise<boolean> {
+    return await compare(password, this.password);
+  }
 }

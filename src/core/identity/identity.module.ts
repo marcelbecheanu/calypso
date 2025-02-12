@@ -14,7 +14,7 @@ import { IdentityController } from './controllers/identity.controller';
   imports: [TypeOrmModule.forFeature([Role, Group, Identity])],
   controllers: [RoleController, GroupController, IdentityController],
   providers: [RoleService, GroupService, IdentityService],
-  exports: [RoleService, GroupService],
+  exports: [RoleService, GroupService, IdentityService],
 })
 export class IdentityModule {
   constructor() {}

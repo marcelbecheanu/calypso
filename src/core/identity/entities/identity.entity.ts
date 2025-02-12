@@ -13,7 +13,6 @@ import {
 import { compare, genSalt, hash } from 'bcrypt';
 import { Role } from './role.entity';
 import { Group } from './group.entity';
-import { constants } from 'buffer';
 import { hashLevel } from '../constants/identity.config';
 
 @Entity({ name: 'identities' })

@@ -95,4 +95,12 @@ export class IdentityService {
     identity.groups = identity.groups.filter((group) => group.id !== groupId);
     return this.identityRepository.save(identity);
   }
+
+  async findIdentityByEmail(email: string): Promise<Identity> {
+    const identity: Identity | null = await this.identityRepository.findOneBy({ email });
+    if (!identity) {
+      throw new NotFoundException(`Identity with email ${email} not found`);
+    }
+    return identity;
+  }
 }

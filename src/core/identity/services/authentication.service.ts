@@ -10,6 +10,7 @@ export class AuthenticationService {
   ) {}
 
 
+
   async checkIfEmailIsAvailable(email: string): Promise<{ code: string; message: string }> {
     try {
       await this.identityService.findIdentityByEmail(email);

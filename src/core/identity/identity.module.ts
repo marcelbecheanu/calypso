@@ -9,12 +9,23 @@ import { GroupController } from './controllers/group.controller';
 import { GroupService } from './services/group.service';
 import { IdentityService } from './services/identity.service';
 import { IdentityController } from './controllers/identity.controller';
+import { AuthenticationService } from './services/authentication.service';
+import { AuthenticationController } from './controllers/authentication.controller';
+import { JwtModule } from '@nestjs/jwt';
+import { expiresIn, secret } from './constants/identity.config';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Role, Group, Identity])],
-  controllers: [RoleController, GroupController, IdentityController],
-  providers: [RoleService, GroupService, IdentityService],
-  exports: [RoleService, GroupService, IdentityService],
+  imports: [
+    JwtModule.register({
+      global: true,
+      secret: secret,
+      signOptions: { expiresIn: expiresIn },
+    }),
+    TypeOrmModule.forFeature([Role, Group, Identity])
+  ],
+  controllers: [RoleController, GroupController, IdentityController, AuthenticationController],
+  providers: [RoleService, GroupService, IdentityService, AuthenticationService],
+  exports: [RoleService, GroupService, IdentityService, AuthenticationService],
 })
 export class IdentityModule {
   constructor() {}

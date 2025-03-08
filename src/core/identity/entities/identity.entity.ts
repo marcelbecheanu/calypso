@@ -45,21 +45,18 @@ export class Identity {
   @CreateDateColumn({
     name: 'identity_created_at',
     type: 'timestamp',
-    nullable: false,
   })
   createdAt: Date;
 
   @UpdateDateColumn({
     name: 'identity_updated_at',
     type: 'timestamp',
-    nullable: false,
   })
   updatedAt: Date;
 
   @DeleteDateColumn({
     name: 'identity_deleted_at',
     type: 'timestamp',
-    nullable: true,
   })
   deletedAt?: Date;
 

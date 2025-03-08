@@ -21,7 +21,7 @@ import { expiresIn, secret } from './constants/identity.config';
       secret: secret,
       signOptions: { expiresIn: expiresIn },
     }),
-    TypeOrmModule.forFeature([Role, Group, Identity])
+    TypeOrmModule.forFeature([Role, Group, Identity]),
   ],
   controllers: [RoleController, GroupController, IdentityController, AuthenticationController],
   providers: [RoleService, GroupService, IdentityService, AuthenticationService],

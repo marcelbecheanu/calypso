@@ -96,9 +96,9 @@ export class IdentityService {
     return this.identityRepository.save(identity);
   }
 
-  async findIdentityByEmail(email: string): Promise<Identity> {
+  async findIdentityByEmail(email: string, unsecure = false): Promise<Identity | null> {
     const identity: Identity | null = await this.identityRepository.findOneBy({ email });
-    if (!identity) {
+    if (!identity && unsecure == false) {
       throw new NotFoundException(`Identity with email ${email} not found`);
     }
     return identity;
